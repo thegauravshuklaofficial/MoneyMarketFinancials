@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Money Market Financial Services Pvt. Ltd.</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1E3A8A;
+      --secondary: #10B981;
+      --background: #F8FAFC;
+      --text: #1F2937;
+      --accent: #3B82F6;
+      --card: #FFFFFF;
+      --shadow: 0 2px 8px rgba(30, 58, 138, 0.08);
+      --radius: 16px;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--background);
+      font-family: 'Inter', 'Roboto', Arial, sans-serif;
+      color: var(--text);
+      min-height: 100vh;
+    }
+    header {
+      background: var(--primary);
+      color: #fff;
+      padding: 32px 16px 24px 16px;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+    header h1 {
+      font-size: 2rem;
+      margin: 0 0 8px 0;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      line-height: 1.2;
+    }
+    header p {
+      opacity: 0.85;
+      font-size: 1.1rem;
+      margin-top: 0;
+      margin-bottom: 0;
+      font-weight: 500;
+    }
+    main {
+      padding: 16px;
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+    .promo-banner {
+      margin: 0 auto 20px auto;
+      display: flex;
+      justify-content: center;
+    }
+    .promo-banner a {
+      display: inline-block;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 2px 16px rgba(30,58,138,.15);
+      transition: box-shadow .18s;
+      max-width: 99vw;
+    }
+    .promo-banner a:hover, .promo-banner a:focus {
+      box-shadow: 0 4px 28px rgba(16,185,129,0.24);
+      outline: none;
+    }
+    .promo-banner img {
+      width: 100%;
+      max-width: 400px;
+      display: block;
+      height: auto;
+      border-radius: 18px;
+      cursor: pointer;
+    }
+    @media (max-width:500px) {
+      .promo-banner img { max-width: 98vw;}
+    }
+    .product-section-title {
+      text-align:center;
+      margin:18px 0 8px 0;
+      font-size:1.2rem;
+      font-weight:600;
+      color:var(--primary);
+    }
+    .product-section-desc {
+      text-align:center;
+      color:#666;
+      font-size:1rem;
+      margin-bottom:24px;
+      opacity:.8;
+    }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      gap: 16px;
+    }
+    @media (min-width:600px) { .product-grid { grid-template-columns: repeat(2, 1fr);} }
+    @media (min-width:900px) { .product-grid { grid-template-columns: repeat(3, 1fr);} }
+    .product-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      padding: 18px 20px;
+      border: 1px solid #e7e7ef;
+      cursor: pointer;
+      transition: box-shadow 0.2s, transform 0.1s;
+      outline: none;
+      position: relative;
+      min-height:70px;
+      margin:0;
+    }
+    .product-card:hover, .product-card:focus {
+      box-shadow: 0 4px 16px rgba(30, 58, 138, 0.16);
+      transform: translateY(-2px) scale(1.012);
+      border-color: var(--accent);
+      outline: none;
+    }
+    .product-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: var(--secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.35rem;
+      color: #fff;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .product-info h3 {
+      margin: 0 0 3px 0;
+      font-size: 1.07rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .product-info p {
+      margin: 0;
+      font-size: 0.97rem;
+      opacity: 0.83;
+      line-height: 1.33;
+    }
+    .modal-backdrop {
+      display:none;
+      position:fixed;
+      inset:0;
+      background: rgba(30, 58, 138, 0.12);
+      z-index: 98;
+    }
+    .modal-backdrop.active{display:block;}
+    .modal {
+      display:none;
+      position:fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--card);
+      padding:24px 18px 16px 18px;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(30, 58, 138, 0.15);
+      min-width: 94vw;
+      max-width: 95vw;
+      z-index: 100;
+      opacity: 0;
+      transition: opacity 0.23s;
+    }
+    .modal.active {
+      display:block;
+      opacity: 1;
+      max-width: 360px;
+      min-width:280px;
+    }
+    .modal h2 {
+      margin: 0 0 8px 0;
+      font-size: 1.18rem;
+      color: var(--primary);
+      font-weight: 700;
+      text-align:center;
+    }
+    .close-btn{
+      position:absolute;top:8px;right:12px;
+      background:none;border:none;color:var(--primary);font-size:1.6rem;cursor:pointer;line-height:1;
+      z-index:1;
+    }
+    .modal form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .modal label {
+      font-size: 0.98rem;
+      font-weight: 500;
+    }
+    .modal input, .modal select {
+      padding: 9px 12px;
+      font-size: 1rem;
+      border: 1px solid #c3d2ec;
+      border-radius: 8px;
+      background: #f4f8fd;
+      outline: none;
+      font-family: inherit;
+      transition: border 0.18s;
+    }
+    .modal input:focus {
+      border: 1.5px solid var(--accent);
+    }
+    .modal button[type=submit] {
+      margin-top:6px;
+      background: var(--primary);
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.09rem;
+      border: none;
+      border-radius: 8px;
+      padding: 11px 0;
+      cursor: pointer;
+      transition: background 0.17s;
+      letter-spacing:0.01em;
+    }
+    .modal button[type=submit]:hover {
+      background: var(--accent);
+    }
+    .modal .success {
+      color: var(--secondary);
+      font-weight: 700;
+      text-align: center;
+      margin: 22px 0 8px 0;
+      font-size: 1.08rem;
+    }
+    @media (max-width:360px){.modal{min-width: 92vw;}}
+    .footer {
+      margin-top:48px;
+      padding:22px 8px 12px 8px;
+      background: #1E3A8A;
+      color: #fff;
+      text-align: center;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+      position: relative;
+      font-size:1rem;
+      letter-spacing:0.01em;
+    }
+    .footer span {font-weight:600;}
+    .social-icons {
+      margin-top:14px;
+      display: flex;
+      justify-content: center;
+      gap: 22px;
+    }
+    .social-icons a {
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:38px;
+      height:38px;
+      border-radius:50%;
+      background:#fff;
+      color:var(--primary);
+      font-size:1.33rem;
+      transition: background 0.2s, color 0.18s;
+      border: none;
+    }
+    .social-icons a:hover {
+      background:var(--accent);
+      color:#fff;
+    }
+    .social-icons svg {
+      width:22px; height:22px; display:block; fill:currentColor;
+    }
+    @media (max-width:500px){
+      .footer{font-size:0.98rem;}
+      .social-icons a{width:34px;height:34px;}
+      .social-icons svg{width:18px;height:18px;}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Money Market Financial Services Pvt. Ltd.</h1>
+    <p>one stop for all your Financial needs</p>
+  </header>
+  <main>
+    <div class="promo-banner">
+      <a href="#" id="promoBanner" tabindex="0">
+        <img src="https://lh3.googleusercontent.com/pw/AP1GczMmCBxQ3t09XPKPZzC8PRP2sLw7G6vBFpTlok6MPcgk1tebEFUtebaC1BlJD2rIQLG2TvRZ1rBd5LFTsSydwW-ut73AgVNYJ7fHwW4uqe1SnMJvs9KhevhbWrB2mzlmWR91FEAki6s7GtMJ2ixHg-Q=w1280-h720-s-no-gm?authuser=0" alt="Grab Personal Loan upto 5 Lac" />
+      </a>
+    </div>
+    <div class="product-section-title">Our Financial Products</div>
+    <div class="product-section-desc">Choose from our comprehensive range of financial services tailored to your needs</div>
+    <div class="product-grid" id="productGrid">
+      <div class="product-card" tabindex="0"><div class="product-icon">💳</div><div class="product-info"><h3>Personal Loan</h3><p>Quick and hassle-free personal loans with competitive rates.</p></div></div>
+      <div class="product-card" tabindex="0"><div class="product-icon">🏡</div><div class="product-info"><h3>Home Loan</h3><p>Fulfil your dream of owning a home with flexible home loans.</p></div></div>
+      <div class="product-card" tabindex="0"><div class="product-icon">🚗</div><div class="product-info"><h3>Car Loan</h3><p>Drive your dream car with easy car loan solutions.</p></div></div>
+       <div class="product-card" tabindex="0"><div class="product-icon">🏍</div><div class="product-info"><h3>2 Wheeler Loan</h3><p>Comprehensive insurance plans to protect you and your family.</p></div></div>
+      <div class="product-card" tabindex="0"><div class="product-icon">🏢</div><div class="product-info"><h3>Business Loan</h3><p>Grow your business with tailored business financing.</p></div></div>
+      <div class="product-card" tabindex="0"><div class="product-icon">🎓</div><div class="product-info"><h3>Education Loan</h3><p>Secure your future with our comprehensive education loan options.</p></div></div>
+      <div class="product-card" tabindex="0"><div class="product-icon">🪙</div><div class="product-info"><h3>Gold Loan</h3><p>Quick loans against gold with minimal documentation.</p></div></div>
+      <div class="product-card" tabindex="0"><div class="product-icon">💳</div><div class="product-info"><h3>Credit Card</h3><p>Premium credit cards with exclusive benefits and rewards.</p></div></div>
+      
+      <div class="product-card" tabindex="0"><div class="product-icon">💰</div><div class="product-info"><h3>Mutual Funds</h3><p>Diversify your portfolio with our expert-managed mutual funds.</p></div></div>
+      <div class="product-card" tabindex="0"><div class="product-icon">📈</div><div class="product-info"><h3>SIP</h3><p>Secure your investment journey with our digital trading solutions.</p></div></div>
+       <div class="product-card" tabindex="0"><div class="product-icon">⏳</div><div class="product-info"><h3>Term Life Insurance</h3><p>Affordable life insurance plans to secure your family's future.</p></div></div>
+      <div class="product-card" tabindex="0"><div class="product-icon">🏥</div><div class="product-info"><h3>Health Insurance</h3><p>Comprehensive health coverage for you and your family.</p></div></div>
+      <div class="product-card" tabindex="0"><div class="product-icon">🚘</div><div class="product-info"><h3>Motor Insueance</h3><p>Foreign exchange services at competitive rates.</p></div></div>
+       <div class="product-card" tabindex="0"><div class="product-icon">👴</div><div class="product-info"><h3>Retirement Planning</h3><p>Secure your golden years with our retirement planning expertise.</p></div></div>
+      <div class="product-card" tabindex="0"><div class="product-icon">🏛️</div><div class="product-info"><h3>Corporate Insurance</h3><p>Comprehensive banking solutions for corporate clients.</p></div></div>
+     <div class="product-card" tabindex="0"><div class="product-icon">📈</div><div class="product-info"><h3>Tax & Financial Planning</h3><p>Expert tax planning and advisory services.</p></div></div>
+      <div class="product-card" tabindex="0"><div class="product-icon">⚖️</div><div class="product-info"><h3>Wealth Management</h3><p>Comprehensive wealth management for high net worth individuals.</p></div></div>
+      <div class="product-card" tabindex="0"><div class="product-icon">💡</div><div class="product-info"><h3>Investment Advisory</h3><p>Expert investment advice to help you grow your portfolio.</p></div></div>
+      <div class="product-card" tabindex="0"><div class="product-icon">🏘️</div><div class="product-info"><h3>Loan Against Property</h3><p>Unlock the value of your property with our mortgage solutions.</p></div></div>
+      <div class="product-card" tabindex="0"><div class="product-icon">💵</div><div class="product-info"><h3>Working Capital</h3><p>Maintain smooth business operations with working capital finance.</p></div></div>
+    </div>
+  </main>
+  <div class="footer">
+    &copy; <span>2025 Money Market Financial Services Pvt. Ltd.</span> All Rights Reserved.
+    <div class="social-icons">
+      <a href="https://api.whatsapp.com/send/?phone=%2B919990066885&text&type=phone_number&app_absent=0" title="WhatsApp" aria-label="WhatsApp">
+        <svg viewBox="0 0 24 24"><path d="M17 15.476c-.297-.149-1.757-.867-2.028-.97-.271-.099-.469-.148-.667.15-.198.296-.766.969-.94 1.167-.172.198-.348.222-.645.074-.297-.149-1.255-.462-2.393-1.473-.885-.79-1.481-1.763-1.656-2.06-.172-.297-.018-.457.13-.605.136-.135.298-.348.446-.521.151-.174.201-.298.301-.497.099-.198.05-.372-.025-.521-.075-.149-.667-1.61-.913-2.203-.241-.583-.488-.504-.667-.514-.174-.008-.372-.01-.573-.01-.198 0-.521.074-.793.372-.271.297-1.04 1.017-1.04 2.48 0 1.46 1.065 2.872 1.215 3.07.149.199 2.105 3.205 5.104 4.228.714.229 1.27.366 1.705.469.715.171 1.364.147 1.877.089.573-.064 1.757-.718 2.006-1.411.248-.695.248-1.289.174-1.411-.075-.124-.271-.199-.567-.347zm-5.001 6.362h-.001c-1.678 0-3.355-.444-4.797-1.283l-.343-.205-3.569.939.954-3.481-.224-.358C2.661 15.978 2.19 14.52 2.19 13c0-5.06 4.114-9.173 9.174-9.173 2.449 0 4.75.957 6.478 2.688 1.728 1.729 2.688 4.03 2.688 6.48 0 5.06-4.113 9.173-9.172 9.173zM19.84 4.164A11.879 11.879 0 0011.36 1.5C5.391 1.5.5 6.391.5 12.36c0 2.17.572 4.3 1.654 6.157L.62 23.38l5.093-1.36A11.822 11.822 0 0011.36 22.5c5.969 0 10.86-4.89 10.86-10.86 0-2.652-.903-5.178-2.577-7.236z"/></svg>
+      </a>
+      <a href="https://www.instagram.com/moneymarketfinancials/?hl=en" title="Instagram" aria-label="Instagram">
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.342 3.608 1.317.974.975 1.255 2.243 1.317 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.342 2.633-1.317 3.608-.975.974-2.243 1.255-3.608 1.317-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.343-3.608-1.317-.974-.975-1.255-2.243-1.317-3.608C2.175 15.647 2.163 15.267 2.163 12s.012-3.584.07-4.85c.062-1.366.343-2.633 1.317-3.608.975-.974 2.243-1.255 3.608-1.317C8.416 2.175 8.796 2.163 12 2.163m0-2.163c-3.259 0-3.667.013-4.943.072-1.494.064-2.575.349-3.563 1.337-.986.986-1.273 2.067-1.337 3.563C2.012 8.333 2 8.741 2 12s.013 3.667.072 4.943c.064 1.494.351 2.577 1.337 3.563.988.988 2.07 1.273 3.563 1.337C8.333 21.987 8.741 22 12 22s3.667-.013 4.943-.072c1.494-.064 2.577-.349 3.563-1.337.988-.988 1.273-2.069 1.337-3.563.059-1.276.072-1.684.072-4.943s-.013-3.667-.072-4.943c-.064-1.494-.349-2.577-1.337-3.563-.986-.988-2.068-1.273-3.563-1.337C15.667 2.012 15.259 2 12 2z"/><circle cx="12" cy="12" r="3.5"/><circle cx="17.5" cy="6.5" r="1.5"/></svg>
+      </a>
+      <a href="https://www.facebook.com/moneymarketfinancials" title="Facebook" aria-label="Facebook">
+        <svg viewBox="0 0 24 24"><path d="M22.676 0H1.325C.593 0 0 .593 0 1.326V22.67c0 .73.592 1.324 1.325 1.324h11.495v-9.294H9.691V9.69h3.129V7.41c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.797.142v3.24l-1.918.001c-1.504 0-1.797.715-1.797 1.763v2.313h3.587l-.467 3.56h-3.12V24h6.116c.73 0 1.323-.594 1.323-1.326V1.326C24 .593 23.408 0 22.676 0"/></svg>
+      </a>
+      <a 
+        href="https://www.youtube.com/channel/UC0XwSgOUxELFqdtq7ooNdxg"
+        title="YouTube"
+        aria-label="YouTube"
+        target="_blank"
+        rel="noopener"
+      >
+        <svg viewBox="0 0 24 24"><path d="M23.499 6.203a2.989 2.989 0 00-2.107-2.112C19.448 3.5 12 3.5 12 3.5s-7.449 0-9.395.591A2.989 2.989 0 00.498 6.203C0 8.179 0 12 0 12s0 3.821.498 5.797a2.989 2.989 0 002.107 2.112C4.551 20.5 12 20.5 12 20.5s7.448 0 9.395-.591a2.989 2.989 0 002.107-2.112C24 15.821 24 12 24 12s0-3.821-.501-5.797zm-13.596 9.09v-6.585l6.23 3.294-6.23 3.291z"/></svg>
+      </a>
+      <a href="https://www.linkedin.com/company/moneymarketfinancials/" title="LinkedIn" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24"><path d="M20.447 20.452H17.21v-5.569c0-1.328-.027-3.037-1.849-3.037-1.851 0-2.132 1.445-2.132 2.939v5.667H9.078V9H12.3v1.561h.045c.448-.847 1.547-1.742 3.182-1.742 3.404 0 4.031 2.24 4.031 5.152v6.481zm-16.34-13.5c-1.047 0-1.893.848-1.893 1.893 0 1.045.846 1.893 1.893 1.893 1.045 0 1.893-.848 1.893-1.893 0-1.045-.848-1.893-1.893-1.893zM4.119 20.452H.888V9H4.12v11.452z"/></svg>
+      </a>
+    </div>
+  </div>
+  <div class="modal-backdrop" id="modalBackdrop"></div>
+  <div class="modal" id="contactModal">
+    <button class="close-btn" id="closeModalBtn">&times;</button>
+    <h2 id="modalTitle">Apply Now</h2>
+    <form id="contactForm" autocomplete="off">
+      <input type="hidden" id="selectedProduct" name="selectedProduct">
+      <label for="name">Name</label>
+      <input id="name" name="name" type="text" required placeholder="Your full name" />
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" required placeholder="you@email.com" />
+      <label for="mobile">Mobile</label>
+      <input id="mobile" name="mobile" type="tel" maxlength="10" pattern="[0-9]{10}" required placeholder="10-digit number" />
+      <label for="details">Additional Details (optional)</label>
+      <input id="details" name="details" type="text" placeholder="How can we help?" />
+      <button type="submit">Submit</button>
+      <div class="success" id="successMsg" style="display:none;"></div>
+    </form>
+  </div>
+  <script>
+    const modal = document.getElementById('contactModal');
+    const backdrop = document.getElementById('modalBackdrop');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const modalTitle = document.getElementById('modalTitle');
+    const contactForm = document.getElementById('contactForm');
+    const selectedProduct = document.getElementById('selectedProduct');
+    const successMsg = document.getElementById('successMsg');
+
+    document.querySelectorAll('.product-card').forEach(card => {
+      card.addEventListener('click', () => openModal(card.querySelector('h3').innerText));
+      card.addEventListener('keypress', (e) => {
+        if (e.key === "Enter" || e.key === " ") openModal(card.querySelector('h3').innerText);
+      });
+    });
+    const banner = document.getElementById('promoBanner');
+    if(banner) {
+      banner.addEventListener('click', function(e){
+        e.preventDefault();
+        openModal('Personal Loan');
+      });
+      banner.addEventListener('keypress', function(e) {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          openModal('Personal Loan');
+        }
+      });
+    }
+    function openModal(product) {
+      modalTitle.textContent = `Get Started – ${product}`;
+      selectedProduct.value = product;
+      contactForm.reset();
+      successMsg.style.display = 'none';
+      modal.classList.add('active');
+      backdrop.classList.add('active');
+      document.body.style.overflow = "hidden";
+      contactForm.name.focus();
+    }
+    function closeModal() {
+      modal.classList.remove('active');
+      backdrop.classList.remove('active');
+      document.body.style.overflow = "";
+    }
+    closeModalBtn.onclick = closeModal;
+    backdrop.onclick = closeModal;
+    contactForm.onsubmit = function(e){
+      e.preventDefault();
+      successMsg.style.display = '';
+      successMsg.innerText = 'Thank you! Your details have been submitted. Our team will contact you soon.';
+      setTimeout(closeModal, 2000);
+    };
+    window.addEventListener('keydown', function(e) {
+      if (e.key === "Escape") closeModal();
+    });
+    modal.addEventListener('keydown', function(e) {
+      if (e.key === "Tab") {
+        const focusables = Array.from(modal.querySelectorAll('button:not([disabled]), input:not([type=hidden]):not([disabled])'));
+        const first = focusables[0];
+        const last = focusables[focusables.length-1];
+        if (e.shiftKey) {
+          if (document.activeElement === first) {
+            e.preventDefault(); last.focus()
+          }
+        } else {
+          if (document.activeElement === last) {
+            e.preventDefault(); first.focus()
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
